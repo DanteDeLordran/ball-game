@@ -1,9 +1,10 @@
 [project]
 name = "ooppy"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.0.1"
+description = "This project was created using UV"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "colorama>=0.4.6",
     "numpy>=2.2.2",
 ]
