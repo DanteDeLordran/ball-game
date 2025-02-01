@@ -1,5 +1,7 @@
 from colorama import Fore, Style
 
+from bank.exeptions.abort_transaction import AbortTransaction
+
 
 class Account:
 
@@ -8,11 +10,23 @@ class Account:
         self.balance = balance
         self.password = password
 
+    def validate_amount(self, amount: float):
+        try:
+            amount = float(amount)
+        except ValueError:
+            raise AbortTransaction("Amount must be a number.")
+        if amount <= 0:
+            raise AbortTransaction("Amount must be a positive number.")
+        return amount
+
+    def check_password_match(self, password: str):
+        if self.password != password:
+            raise AbortTransaction("Passwords do not match.")
+
     def deposit(self, amount: float, password: str) -> float | None:
         if password != self.password:
             return None
-        if amount < 0:
-            return None
+        amount = self.validate_amount(amount)
         self.balance += amount
         return self.balance
 

@@ -1,0 +1,3 @@
+
+class AbortTransaction(Exception):
+    pass

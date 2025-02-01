@@ -41,6 +41,8 @@ def main():
             balance = float(input("Enter initial balance: "))
             password = input("Enter password: ")
             account = Account(name, balance, password)
+            accounts[next_account_number] = account
+            next_account_number += 1
             account.show()
 
         case "w":
