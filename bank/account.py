@@ -10,7 +10,8 @@ class Account:
         self.balance = balance
         self.password = password
 
-    def validate_amount(self, amount: float):
+    @staticmethod
+    def validate_amount(amount: float):
         try:
             amount = float(amount)
         except ValueError:
