@@ -1,0 +1,7 @@
+# settings.py
+
+WINDOW_WIDTH = 640
+WINDOW_HEIGHT = 480
+FPS = 30
+N_PIXELS_TO_MOVE = 6
+BACKGROUND = (0, 0, 0)

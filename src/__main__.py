@@ -1,7 +1,6 @@
 import random
 
 import pygame
-from pygame import Rect
 from pygame.locals import QUIT
 import sys
 from pathlib import Path
