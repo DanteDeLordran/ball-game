@@ -27,6 +27,9 @@ def main():
     # Load assets
 
     ball = pygame.image.load(Path(__file__).parent.parent / "assets" / "images" / "ball.png")
+    boing_fx = pygame.mixer.Sound(Path(__file__).parent.parent / "assets" / "audio" / "boing.wav")
+    pygame.mixer.music.load(Path(__file__).parent.parent / "assets" / "audio" / "background.mp3")
+    pygame.mixer.music.play(-1, 0)
 
     # Init variables
 
@@ -51,10 +54,12 @@ def main():
 
         if (ball_rect.x < 0) or (ball_rect.x > max_width + 1):
             x_speed = -x_speed
+            boing_fx.play()
             BACKGROUND = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
         if (ball_rect.y < 0) or (ball_rect.y > max_height + 1):
             y_speed = -y_speed
+            boing_fx.play()
             BACKGROUND = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
         ball_rect.x += x_speed
