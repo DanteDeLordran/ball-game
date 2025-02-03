@@ -8,36 +8,35 @@ from pathlib import Path
 
 # Defining pygame constants
 
-BLACK = (0, 0, 0)
+BACKGROUND = (0, 0, 0)
 WINDOW_WIDTH = 640
 WINDOW_HEIGHT = 480
 FPS = 30
-BALL_WIDTH_HEIGHT = 100
-MAX_WIDTH = WINDOW_WIDTH - BALL_WIDTH_HEIGHT
-MAX_HEIGHT = WINDOW_HEIGHT - BALL_WIDTH_HEIGHT
-TARGET_X = 400
-TARGET_Y = 320
-TARGET_WIDTH_HEIGHT = 120
 N_PIXELS_TO_MOVE = 6
 
 def main():
-
+    global BACKGROUND
     # Init game
 
     pygame.init()
     window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+    pygame.display.set_caption("Simple Ball", "Simple Ball")
+    pygame.display.set_icon(pygame.image.load(Path(__file__).parent.parent / "assets" / "images" / "ball.png"))
     clock = pygame.time.Clock()
 
     # Load assets
 
     ball = pygame.image.load(Path(__file__).parent.parent / "assets" / "images" / "ball.png")
-    target = pygame.image.load(Path(__file__).parent.parent / "assets" / "images" / "target.jpg")
 
     # Init variables
 
-    ball_x = random.randrange(MAX_WIDTH)
-    ball_y = random.randrange(MAX_HEIGHT)
-    target_rect = Rect(TARGET_X, TARGET_Y, TARGET_WIDTH_HEIGHT, TARGET_WIDTH_HEIGHT)
+    ball_rect = ball.get_rect()
+    max_width = WINDOW_WIDTH - ball_rect.width
+    max_height = WINDOW_HEIGHT - ball_rect.height
+    ball_rect.x = random.randrange(max_width)
+    ball_rect.y = random.randrange(max_height)
+    x_speed = N_PIXELS_TO_MOVE
+    y_speed = N_PIXELS_TO_MOVE
 
     while True:
 
@@ -50,33 +49,24 @@ def main():
 
         # Perform 'per frame' actions
 
-        key_pressed = pygame.key.get_pressed()
+        if (ball_rect.x < 0) or (ball_rect.x > max_width + 1):
+            x_speed = -x_speed
+            BACKGROUND = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
-        if key_pressed[pygame.K_LEFT]:
-            ball_x -= N_PIXELS_TO_MOVE
+        if (ball_rect.y < 0) or (ball_rect.y > max_height + 1):
+            y_speed = -y_speed
+            BACKGROUND = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
 
-        if key_pressed[pygame.K_RIGHT]:
-            ball_x += N_PIXELS_TO_MOVE
-
-        if key_pressed[pygame.K_UP]:
-            ball_y -= N_PIXELS_TO_MOVE
-
-        if key_pressed[pygame.K_DOWN]:
-            ball_y += N_PIXELS_TO_MOVE
-
-        ball_rect = Rect(ball_x, ball_y, BALL_WIDTH_HEIGHT, BALL_WIDTH_HEIGHT)
-
-        if ball_rect.colliderect(target_rect):
-            print("Target collides with ball")
+        ball_rect.x += x_speed
+        ball_rect.y += y_speed
 
         # Clear the frame
 
-        window.fill(BLACK)
+        window.fill(BACKGROUND)
 
         # Draw frame elements
 
-        window.blit(target, (TARGET_X, TARGET_Y))
-        window.blit(ball, (ball_x, ball_y))
+        window.blit(ball, ball_rect)
 
         # Update the frame
 
