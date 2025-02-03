@@ -5,7 +5,5 @@ description = "This project was created using UV"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "colorama>=0.4.6",
-    "numpy>=2.2.2",
     "pygame>=2.6.1",
 ]
