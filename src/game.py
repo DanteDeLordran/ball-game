@@ -1,16 +1,16 @@
-from idlelib.pyshell import restart_line
+import sys
+from pathlib import Path
 
 import pygame
 from pygame.locals import QUIT
+
 from config import BACKGROUND, FPS, WINDOW_WIDTH, WINDOW_HEIGHT
-from pathlib import Path
-import sys
 from models.ball import Ball
 from models.button import Button
 from models.text import Text
 
 
-def run():
+def run(num_balls=1):  # Default to 50 balls if not provided
     pygame.init()
     window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     pygame.display.set_caption("Simple Ball", "Simple Ball")
@@ -22,14 +22,16 @@ def run():
     pygame.mixer.music.play(-1, 0)
 
     # Init variables
-    ball = Ball(window, WINDOW_WIDTH, WINDOW_HEIGHT)
+    balls: list[Ball] = []
+    for _ in range(num_balls):  # Use the num_balls parameter
+        balls.append(Ball(window, WINDOW_WIDTH, WINDOW_HEIGHT))
+
     restart_button = Button(window, (280,60), Path(__file__).parent.parent / "assets" / "images" / "button_up.png", Path(__file__).parent.parent / "assets" / "images" / "button_down.png")
     frame_count_label = Text(window, (60,20), 'Loops', (255,255,255))
     frame_count_display = Text(window, (500,20), '', (255,255,255))
     frame_counter = 0
 
     while True:
-
         # Check for and handle events
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -40,7 +42,8 @@ def run():
                 frame_counter = 0
 
         # Perform 'per frame' actions
-        ball.update()
+        for ball in balls:
+            ball.update()
         frame_counter += 1
         frame_count_display.set_value(str(frame_counter))
 
@@ -49,7 +52,8 @@ def run():
 
         # Draw frame elements
         restart_button.draw()
-        ball.draw()
+        for ball in balls:
+            ball.draw()
         frame_count_label.draw()
         frame_count_display.draw()
 

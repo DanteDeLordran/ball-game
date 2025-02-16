@@ -11,4 +11,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```bash
 uv sync
 uv run src
+
+# To spawn more balls
+uv run src -n <number of balls>
 ```
